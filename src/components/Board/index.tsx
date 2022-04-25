@@ -1,30 +1,30 @@
 import React from "react";
 import styled from "styled-components";
-import { useAppDispatch, useAppSelector } from "store";
-import { getStatus } from "store/game/selectors";
-import { reset, setStatus } from "store/game/actions";
+import { useAppSelector } from "store";
+import { getBoard } from "store/game/selectors";
+import Cell from "components/Board/Cell";
 
-const StyledButton = styled.button`
-  margin: 1rem;
-  padding: 0.5rem 1rem;
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
 `;
 
 const Board: React.FC = () => {
-  const status = useAppSelector(getStatus);
-  const dispatch = useAppDispatch();
+  const board = useAppSelector(getBoard);
 
   return (
-    <div>
-      <h1>That's gonna be a board in the future... </h1>
-      <p>{status}</p>
-      <StyledButton onClick={() => dispatch(setStatus("started"))}>
-        Start game
-      </StyledButton>
-      <StyledButton onClick={() => dispatch(reset())}>Reset</StyledButton>
-      <StyledButton onClick={() => dispatch(setStatus("finished"))}>
-        Finish game
-      </StyledButton>
-    </div>
+    <Grid>
+      {board.grid.map((row) =>
+        row.map((cell) => (
+          <Cell
+            color={cell.color}
+            piece={cell.piece}
+            toggled={cell.toggled}
+            functional={cell.functional}
+          />
+        ))
+      )}
+    </Grid>
   );
 };
 
