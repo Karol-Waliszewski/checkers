@@ -9,6 +9,7 @@ export type Cell = {
   piece: Piece | null;
   toggled: boolean;
   functional: boolean;
+  coords: { x: number; y: number };
 };
 
 export type Grid = Cell[][];

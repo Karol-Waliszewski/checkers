@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useAppSelector } from "store";
 import { getBoard } from "store/game/selectors";
 import Cell from "components/Board/Cell";
+
 import { Board as BoardType } from "types/game";
 
 const Grid = styled.div<Pick<BoardType, "size">>`
@@ -18,6 +19,8 @@ const Board: React.FC = () => {
       {board.grid.map((row) =>
         row.map((cell) => (
           <Cell
+            key={`${cell.coords.x}:${cell.coords.y}`}
+            coords={cell.coords}
             color={cell.color}
             piece={cell.piece}
             toggled={cell.toggled}
