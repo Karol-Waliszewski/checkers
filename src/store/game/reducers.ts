@@ -1,6 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
-import initialState from "./state";
-import { reset, setStatus } from "./actions";
+import initialState from "store/game/state";
+import { reset, setStatus } from "store/game/actions";
 
 const gameReducer = createReducer(initialState, (builder) => {
   builder

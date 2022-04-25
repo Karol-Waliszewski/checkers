@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { getStatus } from "../../store/game/selectors";
-import { reset, setStatus } from "../../store/game/actions";
+import { useAppDispatch, useAppSelector } from "store";
+import { getStatus } from "store/game/selectors";
+import { reset, setStatus } from "store/game/actions";
 
 const StyledButton = styled.button`
   margin: 1rem;
