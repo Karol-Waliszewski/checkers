@@ -1,7 +1,8 @@
 import { createReducer } from "@reduxjs/toolkit";
 import initialState from "store/game/state";
 import { reset, setStatus, clickPiece } from "store/game/actions";
-import { findPossibleMoves, togglePiece, toggleCells } from "utils/game";
+import { togglePiece, toggleCells } from "utils/game/update";
+import { findPossibleMoves } from "utils/game/functional";
 
 const gameReducer = createReducer(initialState, (builder) => {
   builder

@@ -1,5 +1,5 @@
 import { Board } from "types/game";
-import { createBoard } from "utils/game";
+import { createBoard } from "utils/game/creation";
 
 export type GameStatus = "ready" | "started" | "finished";
 
