@@ -91,6 +91,38 @@ export const createBoard = (
   grid: createGrid(size, rowsOfPieces),
 });
 
+export const togglePiece = (grid: Grid, coords: Cell["coords"]): Grid =>
+  grid.map((row) =>
+    row.map((cell) =>
+      createCell(
+        cell.coords,
+        cell.color,
+        cell.piece
+          ? createPiece(
+              cell.piece.color,
+              cell.piece.type,
+              areCoordsSame(cell.coords, coords) ? !cell.piece.toggled : false
+            )
+          : null,
+        cell.toggled
+      )
+    )
+  );
+
+export const toggleCells = (grid: Grid, cells: Cell[]): Grid =>
+  grid.map((row) =>
+    row.map((cell) =>
+      createCell(
+        cell.coords,
+        cell.color,
+        cell.piece,
+        cells.some((value) =>
+          areCoordsSame(value.coords, cell.coords) 
+        )
+      )
+    )
+  );
+
 export const findPossibleMoves = (
   grid: Grid,
   coords: Cell["coords"],
