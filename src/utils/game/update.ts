@@ -14,7 +14,6 @@ export const movePiece = (
   grid: Grid,
   from: Cell,
   to: Cell,
-  piece: Piece
 ): Grid =>
   updateGrid(grid, (cell) => {
     if (areCellsSame(from, cell)) {
@@ -22,7 +21,7 @@ export const movePiece = (
     }
 
     if (areCellsSame(to, cell)) {
-      return placePiece(to, piece);
+      return placePiece(to, from.piece);
     }
 
     return cell;

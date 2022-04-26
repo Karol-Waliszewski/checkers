@@ -1,7 +1,13 @@
 import { createReducer } from "@reduxjs/toolkit";
 import initialState from "store/game/state";
-import { reset, setStatus, toggleCell } from "store/game/actions";
+import {
+  movePiece as movePieceAction,
+  reset,
+  setStatus,
+  toggleCell,
+} from "store/game/actions";
 import { areCellsSame, findPossibleMoves } from "utils/game/functional";
+import { movePiece } from "utils/game/update";
 
 const gameReducer = createReducer(initialState, (builder) => {
   builder
@@ -24,6 +30,13 @@ const gameReducer = createReducer(initialState, (builder) => {
           );
 
       state.toggledCell = isAlreadyToggled ? null : action.payload;
+    })
+    .addCase(movePieceAction, (state, action) => {
+      state.board.grid = state.toggledCell
+        ? movePiece(state.board.grid, state.toggledCell, action.payload)
+        : state.board.grid;
+      state.possibleMoves = [];
+      state.toggledCell = null;
     });
 });
 
