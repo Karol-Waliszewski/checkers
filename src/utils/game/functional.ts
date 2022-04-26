@@ -1,5 +1,8 @@
 import { Grid, Cell, Piece } from "types/game";
 
+export const areCellsSame = (cell1: Cell, cell2: Cell): boolean =>
+  areCoordsSame(cell1.coords, cell2.coords);
+
 export const areCoordsSame = (
   coords1: Cell["coords"],
   coords2: Cell["coords"]
@@ -7,9 +10,12 @@ export const areCoordsSame = (
 
 export const isCellFunctional = (color: Cell["color"]) => color === "white";
 
-export const canPlacePiece = (cell: Cell) => cell.functional;
-
 export const isCellEmpty = (cell: Cell): boolean => !cell.piece;
+
+export const isMovePossible = (moves: Cell[], cell: Cell) =>
+  moves.some((value) => areCellsSame(value, cell));
+
+export const canPlacePiece = (cell: Cell) => cell.functional;
 
 export const getCellByCoords = (
   grid: Grid,

@@ -1,10 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import { useAppSelector } from "store";
-import { getBoard } from "store/game/selectors";
+import {
+  getBoard,
+  getPossibleMoves,
+  getToggledCell,
+} from "store/game/selectors";
 import Cell from "components/Board/Cell";
 
 import { Board as BoardType } from "types/game";
+import { areCellsSame, isMovePossible } from "utils/game/functional";
 
 const Grid = styled.div<Pick<BoardType, "size">>`
   display: grid;
@@ -13,6 +18,8 @@ const Grid = styled.div<Pick<BoardType, "size">>`
 
 const Board: React.FC = () => {
   const board = useAppSelector(getBoard);
+  const activeCell = useAppSelector(getToggledCell);
+  const possibleMoves = useAppSelector(getPossibleMoves);
 
   return (
     <Grid size={board.size}>
@@ -23,8 +30,9 @@ const Board: React.FC = () => {
             coords={cell.coords}
             color={cell.color}
             piece={cell.piece}
-            toggled={cell.toggled}
             functional={cell.functional}
+            pieceActive={activeCell ? areCellsSame(cell, activeCell) : false}
+            active={isMovePossible(possibleMoves, cell)}
           />
         ))
       )}

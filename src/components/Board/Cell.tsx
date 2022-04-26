@@ -3,38 +3,44 @@ import styled from "styled-components";
 
 import Piece from "components/Board/Piece";
 
-import { clickPiece } from "store/game/actions";
+import { toggleCell } from "store/game/actions";
 import { useAppDispatch } from "store";
 
 import type { Cell as CellProps } from "types/game";
 
-const CellWrapper = styled.div<Pick<CellProps, "color" | "toggled">>`
+const CellWrapper = styled.div<Pick<Props, "color" | "active">>`
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background-color: ${({ color, toggled }) => (toggled ? "red" : color)};
+  background-color: ${({ color, active }) => (active ? "red" : color)};
   aspect-ratio: 1;
 `;
 
-const Cell: React.FC<CellProps> = ({
+type Props = CellProps & {
+  active: boolean;
+  pieceActive: boolean;
+};
+
+const Cell: React.FC<Props> = ({
   color,
   piece,
-  toggled,
   coords,
+  active,
+  pieceActive,
   functional,
 }) => {
   const dispatch = useAppDispatch();
 
   return (
-    <CellWrapper color={color} toggled={toggled}>
+    <CellWrapper color={color} active={active}>
       {piece && (
         <Piece
           type={piece.type}
           color={piece.color}
-          toggled={piece.toggled}
+          active={pieceActive}
           onClick={() =>
-            dispatch(clickPiece({ color, piece, coords, toggled, functional }))
+            dispatch(toggleCell({ color, piece, coords, functional }))
           }
         />
       )}

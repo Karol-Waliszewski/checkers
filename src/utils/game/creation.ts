@@ -5,21 +5,18 @@ import { placePiece } from "utils/game/update";
 export const createCell = (
   coords: Cell["coords"],
   color: Cell["color"],
-  piece: Cell["piece"],
-  toggled: Cell["toggled"] = false
+  piece: Cell["piece"]
 ): Cell => ({
   coords,
   color,
   piece,
-  toggled,
   functional: isCellFunctional(color),
 });
 
 export const createPiece = (
   color: Piece["color"],
-  type: Piece["type"] = "man",
-  toggled: Piece["toggled"] = false
-): Piece => ({ color, type, toggled });
+  type: Piece["type"] = "man"
+): Piece => ({ color, type });
 
 const createGrid = (size: number, rowsOfPieces: number) =>
   setupPieces(generateGrid(size), rowsOfPieces);
