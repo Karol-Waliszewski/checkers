@@ -77,6 +77,7 @@ export const getCornerCells = (grid: Grid, cell: Cell, onMove: Color) => ({
   }),
 });
 
+// TODO: Fix the issue when piece makes a loop and could go back to the starting point
 export const findPossibleMoves = (
   grid: Grid,
   from: Cell | null,

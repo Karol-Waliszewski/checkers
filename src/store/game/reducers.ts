@@ -6,8 +6,9 @@ import {
   setStatus,
   toggleCell,
 } from "store/game/actions";
-import { areCellsSame, findPossibleMoves } from "utils/game/functional";
-import { attackPiece } from "utils/game/update";
+import { areCellsSame, findPossibleMoves } from "utils/game/board/functional";
+import { attackPiece } from "utils/game/board/update";
+import { switchPlayer } from "utils/game/engine";
 
 const gameReducer = createReducer(initialState, (builder) => {
   builder
@@ -41,6 +42,7 @@ const gameReducer = createReducer(initialState, (builder) => {
       );
       state.possibleMoves = [];
       state.toggledCell = null;
+      state.currentPlayer = switchPlayer(state.currentPlayer);
     });
 });
 

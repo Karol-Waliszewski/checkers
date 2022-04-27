@@ -9,7 +9,7 @@ import {
 import Cell from "components/Board/Cell";
 
 import { Board as BoardType } from "types/game";
-import { areCellsSame, isMovePossible } from "utils/game/functional";
+import { areCellsSame, isMovePossible } from "utils/game/board/functional";
 
 const Grid = styled.div<Pick<BoardType, "size">>`
   display: grid;

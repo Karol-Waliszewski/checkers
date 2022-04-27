@@ -1,8 +1,8 @@
 import React from "react";
-import Board from "components/Board";
+import Checkers from "views/Checkers";
 
 const App = () => {
-  return <Board />;
+  return <Checkers />;
 };
 
 export default App;
