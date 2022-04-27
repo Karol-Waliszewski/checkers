@@ -1,5 +1,7 @@
 export type Color = "white" | "black";
 
+export type Point = { x: number; y: number };
+
 export type Piece = {
   type: "man" | "king";
   color: Color;
@@ -9,7 +11,7 @@ export type Cell = {
   color: Color;
   piece: Piece | null;
   functional: boolean;
-  coords: { x: number; y: number };
+  coords: Point;
 };
 
 export type Grid = Cell[][];

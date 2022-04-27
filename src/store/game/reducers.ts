@@ -7,7 +7,7 @@ import {
   toggleCell,
 } from "store/game/actions";
 import { areCellsSame, findPossibleMoves } from "utils/game/functional";
-import { attackPiece } from "utils/game/update";
+import { movePiece } from "utils/game/update";
 
 const gameReducer = createReducer(initialState, (builder) => {
   builder
@@ -33,7 +33,7 @@ const gameReducer = createReducer(initialState, (builder) => {
       state.toggledCell = isAlreadyToggled ? null : action.payload;
     })
     .addCase(movePieceAction, (state, action) => {
-      state.board.grid = attackPiece(
+      state.board.grid = movePiece(
         current(state.board.grid),
         action.payload.from,
         action.payload.to,
