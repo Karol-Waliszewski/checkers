@@ -1,6 +1,12 @@
-import { Grid, Board, Cell, Piece } from "types/game";
+import { Grid, Board, Cell, Piece, Move } from "types/game";
 import { isCellFunctional, canPlacePiece } from "utils/game/functional";
 import { placePiece } from "utils/game/update";
+
+export const createMove = (from: Cell, to: Cell, attacking: Cell[] = []): Move => ({
+  from,
+  to,
+  attacking,
+});
 
 export const createCell = (
   coords: Cell["coords"],

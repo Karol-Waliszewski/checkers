@@ -10,13 +10,17 @@ export const placePiece = (cell: Cell, piece: Piece | null): Cell =>
 
 export const removePiece = (cell: Cell): Cell => placePiece(cell, null);
 
-export const movePiece = (
+export const attackPiece = (
   grid: Grid,
   from: Cell,
   to: Cell,
+  attacked: Cell[]
 ): Grid =>
   updateGrid(grid, (cell) => {
-    if (areCellsSame(from, cell)) {
+    if (
+      areCellsSame(from, cell) ||
+      attacked.some((victim) => areCellsSame(victim, cell))
+    ) {
       return removePiece(from);
     }
 
@@ -26,3 +30,6 @@ export const movePiece = (
 
     return cell;
   });
+
+export const movePiece = (grid: Grid, from: Cell, to: Cell): Grid =>
+  attackPiece(grid, from, to, []);

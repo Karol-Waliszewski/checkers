@@ -1,4 +1,5 @@
-import { Grid, Cell, Piece } from "types/game";
+import { Grid, Cell, Color, Move } from "types/game";
+import { createMove } from "./creation";
 
 export const areCellsSame = (cell1: Cell, cell2: Cell): boolean =>
   areCoordsSame(cell1.coords, cell2.coords);
@@ -9,11 +10,17 @@ export const areCoordsSame = (
 ): boolean => coords1.x === coords2.x && coords1.y === coords2.y;
 
 export const isCellFunctional = (color: Cell["color"]) => color === "white";
-
 export const isCellEmpty = (cell: Cell): boolean => !cell.piece;
+export const isCellOccupiedByEnemy = (cell: Cell, onMove: Color): boolean =>
+  !isCellEmpty(cell) && cell.piece?.color !== onMove;
 
-export const isMovePossible = (moves: Cell[], cell: Cell) =>
-  moves.some((value) => areCellsSame(value, cell));
+export const isCellOccupiedByAlly = (cell: Cell, onMove: Color): boolean =>
+  !isCellEmpty(cell) && cell.piece?.color === onMove;
+
+export const isCellInArray = (cells: Cell[], cell: Cell) =>
+  cells.some((value) => areCellsSame(value, cell));
+
+export const isMovePossible = isCellInArray;
 
 export const canPlacePiece = (cell: Cell) => cell.functional;
 
@@ -25,42 +32,89 @@ export const getCellByCoords = (
     .flatMap((row) => row.find((cell) => areCoordsSame(cell.coords, coords)))
     .filter((val) => val !== undefined)[0] ?? null;
 
+export const getCellBehind = (
+  grid: Grid,
+  from: Cell,
+  to: Cell
+): ReturnType<typeof getCellByCoords> =>
+  getCellByCoords(grid, {
+    x: to.coords.x + (to.coords.x - from.coords.x),
+    y: to.coords.y + (to.coords.y - from.coords.y),
+  });
+
+export const getCornerCells = (grid: Grid, cell: Cell, onMove: Color) => ({
+  forwardLeft: getCellByCoords(grid, {
+    x: cell.coords.x - 1,
+    y: cell.coords.y + (onMove === "white" ? 1 : -1),
+  }),
+  forwardRight: getCellByCoords(grid, {
+    x: cell.coords.x + 1,
+    y: cell.coords.y + (onMove === "white" ? 1 : -1),
+  }),
+  backwardLeft: getCellByCoords(grid, {
+    x: cell.coords.x - 1,
+    y: cell.coords.y + (onMove === "black" ? 1 : -1),
+  }),
+  backwardRight: getCellByCoords(grid, {
+    x: cell.coords.x + 1,
+    y: cell.coords.y + (onMove === "black" ? 1 : -1),
+  }),
+});
+
 export const findPossibleMoves = (
   grid: Grid,
-  coords: Cell["coords"],
-  moving?: Piece["color"],
-  starting: boolean = true
-): Cell[] => {
-  const cell = getCellByCoords(grid, coords);
-
-  if (
-    !cell ||
-    !moving ||
-    !isCellFunctional(cell.color) ||
-    (cell.piece?.color === moving && !starting)
-  ) {
+  from: Cell | null,
+  onMove: Color,
+  lastMove: Move | null = null
+): Move[] => {
+  if (from === null) {
     return [];
   }
 
-  if (isCellEmpty(cell)) {
-    return [cell];
-  }
+  const firstIteration = lastMove === null;
+  const { forwardLeft, forwardRight, backwardLeft, backwardRight } =
+    getCornerCells(grid, from, onMove);
 
-  // If white go down, if black go up
-  const DifferenceY = cell.piece!.color === "white" ? 1 : -1;
+  const forwardCorners = [forwardLeft, forwardRight].filter(
+    (corner) => corner !== null
+  ) as Cell[];
+  const backwardCorners = [backwardLeft, backwardRight].filter(
+    (corner) => corner !== null
+  ) as Cell[];
+  const cornersToCheck = [...forwardCorners, ...backwardCorners].filter(
+    (corner) => !isCellInArray(lastMove?.attacking ?? [], corner)
+  );
 
   return [
-    ...findPossibleMoves(
-      grid,
-      { x: coords.x - 1, y: coords.y + DifferenceY },
-      moving,
-      false
-    ),
-    ...findPossibleMoves(
-      grid,
-      { x: coords.x + 1, y: coords.y + DifferenceY },
-      moving,
-      false
-    ),
+    ...(!firstIteration && isCellEmpty(from)
+      ? [createMove(lastMove.from, from, [...lastMove.attacking])]
+      : []),
+    ...cornersToCheck.flatMap((corner) => {
+      if (
+        firstIteration &&
+        isCellEmpty(corner) &&
+        isCellInArray(forwardCorners, corner)
+      ) {
+        return createMove(from, corner, []);
+      }
+
+      if (isCellOccupiedByEnemy(corner, onMove)) {
+        const behind = getCellBehind(grid, from, corner);
+
+        if (behind && isCellEmpty(behind)) {
+          return findPossibleMoves(
+            grid,
+            behind,
+            onMove,
+            createMove(lastMove?.from ?? from, behind, [
+              ...(lastMove?.attacking ?? []),
+              corner,
+            ])
+          );
+        }
+      }
+
+      return [];
+    }),
   ];
 };

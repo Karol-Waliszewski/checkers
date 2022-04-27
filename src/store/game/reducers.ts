@@ -1,4 +1,4 @@
-import { createReducer } from "@reduxjs/toolkit";
+import { createReducer, current } from "@reduxjs/toolkit";
 import initialState from "store/game/state";
 import {
   movePiece as movePieceAction,
@@ -21,13 +21,14 @@ const gameReducer = createReducer(initialState, (builder) => {
       const isAlreadyToggled =
         state.toggledCell && areCellsSame(action.payload, state.toggledCell);
 
-      state.possibleMoves = isAlreadyToggled
-        ? []
-        : findPossibleMoves(
-            state.board.grid,
-            action.payload.coords,
-            action.payload.piece?.color
-          );
+      state.possibleMoves =
+        !isAlreadyToggled && action.payload.piece
+          ? findPossibleMoves(
+              current(state.board.grid),
+              action.payload,
+              action.payload.piece?.color
+            ).map((move) => move.to)
+          : [];
 
       state.toggledCell = isAlreadyToggled ? null : action.payload;
     })
