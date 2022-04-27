@@ -20,7 +20,23 @@ export const isCellOccupiedByAlly = (cell: Cell, onMove: Color): boolean =>
 export const isCellInArray = (cells: Cell[], cell: Cell) =>
   cells.some((value) => areCellsSame(value, cell));
 
-export const isMovePossible = isCellInArray;
+export const getMoveWeight = (move: Move): number => move.attacking.length;
+
+export const isMovePossible = (moves: Move[], cell: Cell) =>
+  isCellInArray(
+    moves.map((move) => move.to),
+    cell
+  );
+
+export const getOptimalMove = (moves: Move[], cell?: Cell) =>
+  moves.reduce<Move | null>(
+    (max, curr) =>
+      getMoveWeight(curr) >= (max ? getMoveWeight(max) : 0) &&
+      (!cell || areCellsSame(cell, curr.to))
+        ? curr
+        : max,
+    null
+  ) as Move;
 
 export const canPlacePiece = (cell: Cell) => cell.functional;
 

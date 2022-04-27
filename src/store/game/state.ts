@@ -1,4 +1,4 @@
-import { Board, Cell } from "types/game";
+import { Board, Cell, Move } from "types/game";
 import { createBoard } from "utils/game/creation";
 
 export type GameStatus = "ready" | "started" | "finished";
@@ -7,7 +7,7 @@ export interface GameState {
   status: GameStatus;
   board: Board;
   toggledCell: Cell | null;
-  possibleMoves: Cell[];
+  possibleMoves: Move[];
 }
 
 const initialState: GameState = {

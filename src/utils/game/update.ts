@@ -1,6 +1,6 @@
 import { Grid, Cell, Piece } from "types/game";
 import { createCell } from "utils/game/creation";
-import { areCellsSame } from "utils/game/functional";
+import { areCellsSame, isCellInArray } from "utils/game/functional";
 
 export const updateGrid = (grid: Grid, callback: (cell: Cell) => Cell): Grid =>
   grid.map((row) => row.map(callback));
@@ -19,13 +19,13 @@ export const attackPiece = (
   updateGrid(grid, (cell) => {
     if (
       areCellsSame(from, cell) ||
-      attacked.some((victim) => areCellsSame(victim, cell))
+      isCellInArray(attacked, cell)
     ) {
-      return removePiece(from);
+      return removePiece(cell);
     }
 
     if (areCellsSame(to, cell)) {
-      return placePiece(to, from.piece);
+      return placePiece(cell, from.piece);
     }
 
     return cell;
