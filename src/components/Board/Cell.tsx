@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "store";
 import type { Cell as CellProps } from "types/game";
 import { getCurrentPlayer, getPossibleMoves } from "store/game/selectors";
 import { getOptimalMove } from "utils/game/board/functional";
-import { canMovePiece } from "utils/game/engine";
+import { isPieceOwnedByPlayer } from "utils/game/engine";
 
 const CellWrapper = styled.div<Pick<Props, "color" | "active">>`
   display: flex;
@@ -46,7 +46,7 @@ const Cell: React.FC<Props> = ({
   };
 
   const onPieceClick = () => {
-    if (piece && canMovePiece(currentPlayer, piece)) {
+    if (piece && isPieceOwnedByPlayer(currentPlayer, piece)) {
       dispatch(toggleCell(cell));
     }
   };

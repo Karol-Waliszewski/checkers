@@ -25,4 +25,25 @@ export type Move = {
   from: Cell;
   to: Cell;
   attacking: Cell[];
+  color: Color
 };
+
+
+export type PlayerType = 'ai' | 'player'
+
+export type Player = {
+  name: string
+  type: PlayerType
+  color: Color
+}
+
+export type GameStatus = "ready" | "started" | "finished";
+
+export type Game = {
+  playerA: Player
+  playerB: Player
+
+  currentPlayer: Player
+  status: GameStatus;
+  board: Board;
+}

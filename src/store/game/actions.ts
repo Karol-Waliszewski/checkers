@@ -1,6 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
-import { GameStatus } from "store/game/state";
-import { Cell, Move } from "types/game";
+import { Cell, Move, GameStatus } from "types/game";
 
 export const reset = createAction("game/reset");
 export const setStatus = createAction<GameStatus>("game/setStatus");

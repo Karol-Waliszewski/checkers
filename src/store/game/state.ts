@@ -1,20 +1,16 @@
-import { Board, Cell, Color, Move } from "types/game";
-import { createBoard } from "utils/game/board/creation";
+import { Cell, Move, Game } from "types/game";
+import { createGame, createPlayer } from "utils/game/engine";
 
-export type GameStatus = "ready" | "started" | "finished";
-
-export interface GameState {
-  status: GameStatus;
-  currentPlayer: Color;
-  board: Board;
+export type GameState = Game & {
   toggledCell: Cell | null;
   possibleMoves: Move[];
-}
+};
 
 const initialState: GameState = {
-  status: "ready",
-  currentPlayer: "white",
-  board: createBoard(),
+  ...createGame(
+    createPlayer("A", "ai", "black"),
+    createPlayer("B", "ai", "white")
+  ),
   toggledCell: null,
   possibleMoves: [],
 };

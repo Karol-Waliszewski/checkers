@@ -104,7 +104,7 @@ export const findPossibleMoves = (
 
   return [
     ...(!firstIteration && isCellEmpty(from)
-      ? [createMove(lastMove.from, from, [...lastMove.attacking])]
+      ? [createMove(onMove, lastMove.from, from, [...lastMove.attacking])]
       : []),
     ...cornersToCheck.flatMap((corner) => {
       if (
@@ -112,7 +112,7 @@ export const findPossibleMoves = (
         isCellEmpty(corner) &&
         isCellInArray(forwardCorners, corner)
       ) {
-        return createMove(from, corner, []);
+        return createMove(onMove, from, corner, []);
       }
 
       if (isCellOccupiedByEnemy(corner, onMove)) {
@@ -123,7 +123,7 @@ export const findPossibleMoves = (
             grid,
             behind,
             onMove,
-            createMove(lastMove?.from ?? from, behind, [
+            createMove(onMove, lastMove?.from ?? from, behind, [
               ...(lastMove?.attacking ?? []),
               corner,
             ])
@@ -135,3 +135,15 @@ export const findPossibleMoves = (
     }),
   ];
 };
+
+export const calculatePlainDifference = (grid: Grid) =>
+  grid.reduce<number>(
+    (difference, row) =>
+      difference +
+      row.reduce<number>(
+        (sum, cell) =>
+          sum + (cell.piece ? (cell.piece.color === "white" ? 1 : -1) : 0),
+        0
+      ),
+    0
+  );
