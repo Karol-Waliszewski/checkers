@@ -25,25 +25,26 @@ export type Move = {
   from: Cell;
   to: Cell;
   attacking: Cell[];
-  color: Color
+  color: Color;
 };
 
-
-export type PlayerType = 'ai' | 'player'
+export type PlayerType = "ai" | "player";
 
 export type Player = {
-  name: string
-  type: PlayerType
-  color: Color
-}
+  name: string;
+  type: PlayerType;
+  color: Color;
+};
 
 export type GameStatus = "ready" | "started" | "finished";
 
 export type Game = {
-  playerA: Player
-  playerB: Player
+  playerA: Player;
+  playerB: Player;
+  winner: Player | null | undefined; // null == Game resulted draw
+  drawCounter: number;
 
-  currentPlayer: Player
+  currentPlayer: Player;
   status: GameStatus;
   board: Board;
-}
+};

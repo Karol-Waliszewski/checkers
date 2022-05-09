@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { useAppSelector } from "store";
-import { getBoard, getCurrentPlayer } from "store/game/selectors";
+import { getBoard, getCurrentPlayer, getGame } from "store/game/selectors";
 
 import Board from "components/Board";
 import { Container } from "components/shared/Layout";
@@ -13,15 +13,16 @@ const BoardWrapper = styled.div`
 `;
 
 const Checkers = () => {
-  const currentPlayer = useAppSelector(getCurrentPlayer);
-  const board = useAppSelector(getBoard);
+  const game = useAppSelector(getGame);
 
   return (
     <>
       <Container>
         <p>
-          Current player: {currentPlayer.color} | Difference:{" "}
-          {calculatePlainDifference(board.grid)}
+          Current player: {game.currentPlayer.color} | Difference:{" "}
+          {calculatePlainDifference(game.board.grid)} | Status: {game.status} |
+          Winner:{" "}
+          {game.winner ? game.winner.name : game === null ? "draw" : "none"}
         </p>
 
         <BoardWrapper>

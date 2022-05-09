@@ -92,3 +92,6 @@ export const calculatePlainDifference = (grid: Grid) =>
       ),
     0
   );
+
+export const hasPieces = (grid: Grid, color: Color): boolean =>
+  Boolean(grid.find((row) => row.find((cell) => cell.piece?.color === color)));

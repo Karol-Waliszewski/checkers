@@ -8,7 +8,7 @@ import {
 } from "store/game/actions";
 import { areCellsSame } from "utils/game/board/functional";
 import { findPossibleMoves } from "utils/game/board/moving";
-import { movePiece } from "utils/game/engine";
+import { makeMove } from "utils/game/engine";
 
 const gameReducer = createReducer(initialState, (builder) => {
   builder
@@ -34,7 +34,7 @@ const gameReducer = createReducer(initialState, (builder) => {
       state.toggledCell = isAlreadyToggled ? null : action.payload;
     })
     .addCase(movePieceAction, (state, action) => ({
-      ...movePiece(state, action.payload),
+      ...makeMove(state, action.payload),
       toggledCell: null,
       possibleMoves: [],
     }));
