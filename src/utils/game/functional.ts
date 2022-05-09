@@ -46,7 +46,7 @@ export const getOptimalMove = (moves: Move[], cell?: Cell) =>
 
 export const canPlacePiece = (cell: Cell) => cell.functional;
 export const didMoveReachEnd = (grid: Grid, cell: Cell) =>
-  cell.coords.y === 0 || cell.coords.y === grid.length;
+  cell.coords.y === 0 || cell.coords.y === grid.length - 1;
 
 export const getCellByCoords = (
   grid: Grid,
