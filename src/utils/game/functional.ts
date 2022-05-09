@@ -7,6 +7,17 @@ export const areCoordsSame = (
   coords1: Cell["coords"],
   coords2: Cell["coords"]
 ): boolean => coords1.x === coords2.x && coords1.y === coords2.y;
+export const calculateCoordsDistance = (
+  from: Cell["coords"],
+  to: Cell["coords"]
+): Point => ({ x: to.x - from.x, y: to.y - from.y });
+export const calculateCoordsDirection = (
+  from: Cell["coords"],
+  to: Cell["coords"]
+): Point => {
+  const { x, y } = calculateCoordsDistance(from, to);
+  return { x: x > 0 ? 1 : x < 0 ? -1 : 0, y: y > 0 ? 1 : y < 0 ? -1 : 0 };
+};
 
 export const isCellFunctional = (color: Cell["color"]) => color === "white";
 export const isCellEmpty = (cell: Cell): boolean => !cell.piece;
@@ -106,19 +117,26 @@ export const findPossibleMovesKing = (
     return [];
   }
 
-  const { forwardLeft, forwardRight, backwardLeft, backwardRight } =
-    getCornerCells(grid, from, onMove);
+  let cornersToCheck: Cell[] = [];
 
-  const cornersToCheck = [
-    forwardLeft,
-    forwardRight,
-    backwardLeft,
-    backwardRight,
-  ].filter(
-    (corner) => corner && !isCellInArray(lastMove?.attacking ?? [], corner)
-  ) as Cell[];
+  if (lastMove) {
+    const corner = getCellByOffset(
+      grid,
+      from,
+      calculateCoordsDirection(lastMove.from.coords, lastMove.to.coords)
+    );
+    if (corner) cornersToCheck = [corner];
+  } else {
+    const { forwardLeft, forwardRight, backwardLeft, backwardRight } =
+      getCornerCells(grid, from, onMove);
 
-  console.log(cornersToCheck.map((corner) => corner.coords));
+    cornersToCheck = [
+      forwardLeft,
+      forwardRight,
+      backwardLeft,
+      backwardRight,
+    ].filter((corner) => corner) as Cell[];
+  }
 
   return [
     ...cornersToCheck.flatMap((corner) => {
@@ -128,15 +146,14 @@ export const findPossibleMovesKing = (
           corner,
           lastMove?.attacking ?? []
         );
-        return [move];
-        return [move, ...findPossibleMovesKing(grid, corner, onMove, move)]; // TODO: Check only 1 diagonal direciton, not every corner of a new cell...
+        return [move, ...findPossibleMovesKing(grid, corner, onMove, move)];
       }
 
       if (isCellOccupiedByEnemy(corner, onMove)) {
         const behind = getCellBehind(grid, from, corner);
 
         if (behind && isCellEmpty(behind)) {
-          return findPossibleMovesKing(
+          return findPossibleMovesMan(
             grid,
             behind,
             onMove,

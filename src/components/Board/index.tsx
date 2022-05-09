@@ -11,7 +11,6 @@ import Cell from "components/Board/Cell";
 import { Board as BoardType } from "types/game";
 import {
   areCellsSame,
-  findPossibleMovesKing,
   isMovePossible,
 } from "utils/game/functional";
 
@@ -25,12 +24,6 @@ const Board: React.FC = () => {
   const activeCell = useAppSelector(getToggledCell);
   const possibleMoves = useAppSelector(getPossibleMoves);
 
-  if (activeCell) {
-    console.log(
-      findPossibleMovesKing(board.grid, activeCell, activeCell.color)
-    );
-  }
-  
   return (
     <Grid size={board.size}>
       {board.grid.map((row) =>
