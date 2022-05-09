@@ -38,7 +38,15 @@ export const getOptimalMove = (moves: Move[], cell?: Cell) =>
     null
   ) as Move;
 
+export const getOptimalMoves = (moves: Move[], cell?: Cell) => {
+  const maxWeight = getMoveWeight(getOptimalMove(moves, cell));
+  return moves.filter((move) => getMoveWeight(move) === maxWeight);
+};
+
 export const canPlacePiece = (cell: Cell) => cell.functional;
+
+export const getCellsWithPieces = (grid: Grid, color: Color): Cell[] =>
+  grid.flatMap((row) => row.filter((cell) => cell.piece?.color === color));
 
 export const getCellByCoords = (
   grid: Grid,
@@ -102,7 +110,7 @@ export const findPossibleMoves = (
     (corner) => !isCellInArray(lastMove?.attacking ?? [], corner)
   );
 
-  return [
+  return getOptimalMoves([
     ...(!firstIteration && isCellEmpty(from)
       ? [createMove(onMove, lastMove.from, from, [...lastMove.attacking])]
       : []),
@@ -133,8 +141,13 @@ export const findPossibleMoves = (
 
       return [];
     }),
-  ];
+  ]);
 };
+
+export const findAllPossibleMoves = (grid: Grid, onMove: Color): Move[] =>
+  getCellsWithPieces(grid, onMove).flatMap((cell) =>
+    findPossibleMoves(grid, cell, onMove)
+  );
 
 export const calculatePlainDifference = (grid: Grid) =>
   grid.reduce<number>(
