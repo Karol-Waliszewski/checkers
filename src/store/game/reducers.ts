@@ -6,7 +6,8 @@ import {
   setStatus,
   toggleCell,
 } from "store/game/actions";
-import { areCellsSame, findPossibleMoves } from "utils/game/board/functional";
+import { areCellsSame } from "utils/game/board/functional";
+import { findPossibleMoves } from "utils/game/board/moving";
 import { movePiece } from "utils/game/engine";
 
 const gameReducer = createReducer(initialState, (builder) => {
@@ -33,11 +34,10 @@ const gameReducer = createReducer(initialState, (builder) => {
       state.toggledCell = isAlreadyToggled ? null : action.payload;
     })
     .addCase(movePieceAction, (state, action) => ({
-        ...movePiece(state, action.payload),
-        toggledCell: null,
-        possibleMoves: [],
-      })
-    );
+      ...movePiece(state, action.payload),
+      toggledCell: null,
+      possibleMoves: [],
+    }));
 });
 
 export default gameReducer;

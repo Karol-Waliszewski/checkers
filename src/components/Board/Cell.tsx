@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "store";
 
 import type { Cell as CellProps } from "types/game";
 import { getCurrentPlayer, getPossibleMoves } from "store/game/selectors";
-import { getOptimalMove } from "utils/game/board/functional";
+import { getOptimalMove } from "utils/game/board/moving";
 import { isPieceOwnedByPlayer } from "utils/game/engine";
 
 const CellWrapper = styled.div<Pick<Props, "color" | "active">>`
