@@ -6,7 +6,7 @@ import {
   setStatus,
   toggleCell,
 } from "store/game/actions";
-import { areCellsSame, findPossibleMoves } from "utils/game/functional";
+import { areCellsSame, findAllPossibleMoves } from "utils/game/functional";
 import { movePiece } from "utils/game/update";
 
 const gameReducer = createReducer(initialState, (builder) => {
@@ -21,14 +21,19 @@ const gameReducer = createReducer(initialState, (builder) => {
       const isAlreadyToggled =
         state.toggledCell && areCellsSame(action.payload, state.toggledCell);
 
-      state.possibleMoves =
-        !isAlreadyToggled && action.payload.piece
-          ? findPossibleMoves(
-              state.board.grid,
-              action.payload,
-              action.payload.piece?.color
-            )
-          : [];
+      // state.possibleMoves =
+      //   !isAlreadyToggled && action.payload.piece
+      //     ? findPossibleMoves(
+      //         state.board.grid,
+      //         action.payload,
+      //         action.payload.piece?.color
+      //       )
+      //     : [];
+
+      state.possibleMoves = findAllPossibleMoves(
+        state.board.grid,
+        action.payload.piece!.color
+      );
 
       state.toggledCell = isAlreadyToggled ? null : action.payload;
     })
