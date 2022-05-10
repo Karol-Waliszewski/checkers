@@ -1,4 +1,5 @@
 import { Cell, Move, Game } from "types/game";
+import { findAllPossibleMoves } from "utils/game/board/moving";
 import { createGame, createPlayer } from "utils/game/engine";
 
 export type GameState = Game & {
@@ -6,13 +7,20 @@ export type GameState = Game & {
   possibleMoves: Move[];
 };
 
-const initialState: GameState = {
-  ...createGame(
-    createPlayer("A", "ai", "black"),
+const initialState: () => GameState = () => {
+  const game = createGame(
+    createPlayer("A", "player", "black"),
     createPlayer("B", "ai", "white")
-  ),
-  toggledCell: null,
-  possibleMoves: [],
+  );
+
+  return {
+    ...game,
+    toggledCell: null,
+    possibleMoves: findAllPossibleMoves(
+      game.board.grid,
+      game.currentPlayer.color
+    ),
+  };
 };
 
-export default initialState;
+export default initialState();

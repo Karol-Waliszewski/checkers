@@ -45,7 +45,11 @@ const Cell: React.FC<Props> = ({
   };
 
   const onPieceClick = () => {
-    if (piece && isPieceOwnedByPlayer(currentPlayer, piece)) {
+    if (
+      piece &&
+      currentPlayer.type === "player" &&
+      isPieceOwnedByPlayer(currentPlayer, piece)
+    ) {
       dispatch(toggleCell(cell));
     }
   };

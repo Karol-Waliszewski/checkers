@@ -21,19 +21,20 @@ const gameReducer = createReducer(initialState, (builder) => {
     .addCase(toggleCell, (state, action) => {
       const isAlreadyToggled =
         state.toggledCell && areCellsSame(action.payload, state.toggledCell);
-
-      state.possibleMoves = findAllPossibleMoves(
-        state.board.grid,
-        action.payload.piece!.color
-      );
-
       state.toggledCell = isAlreadyToggled ? null : action.payload;
     })
-    .addCase(movePieceAction, (state, action) => ({
-      ...makeMove(state, action.payload),
-      toggledCell: null,
-      possibleMoves: [],
-    }));
+    .addCase(movePieceAction, (state, action) => {
+      const gameState = makeMove(state, action.payload);
+
+      return {
+        ...gameState,
+        toggledCell: null,
+        possibleMoves: findAllPossibleMoves(
+          gameState.board.grid,
+          gameState.currentPlayer.color
+        ),
+      };
+    });
 });
 
 export default gameReducer;
