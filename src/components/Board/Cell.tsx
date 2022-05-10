@@ -6,9 +6,8 @@ import Piece from "components/Board/Piece";
 import { toggleCell, movePiece } from "store/game/actions";
 import { useAppDispatch, useAppSelector } from "store";
 
-import type { Cell as CellProps } from "types/game";
-import { getCurrentPlayer, getPossibleMoves } from "store/game/selectors";
-import { getOptimalMove } from "utils/game/board/moving";
+import type { Cell as CellProps, Move } from "types/game";
+import { getCurrentPlayer } from "store/game/selectors";
 import { isPieceOwnedByPlayer } from "utils/game/engine";
 
 const CellWrapper = styled.div<Pick<Props, "color" | "active">>`
@@ -23,6 +22,7 @@ const CellWrapper = styled.div<Pick<Props, "color" | "active">>`
 type Props = CellProps & {
   active: boolean;
   pieceActive: boolean;
+  move?: Move;
 };
 
 const Cell: React.FC<Props> = ({
@@ -32,12 +32,11 @@ const Cell: React.FC<Props> = ({
   active,
   pieceActive,
   functional,
+  move,
 }) => {
   const dispatch = useAppDispatch();
-  const possibleMoves = useAppSelector(getPossibleMoves);
   const currentPlayer = useAppSelector(getCurrentPlayer);
   const cell: CellProps = { color, piece, coords, functional };
-  const move = getOptimalMove(possibleMoves, cell);
 
   const onCellClick = () => {
     if (active && move) {
