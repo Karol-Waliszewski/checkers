@@ -1,6 +1,6 @@
 import { Game, GameStatus, Move, Piece, Player } from "types/game";
 import { createBoard } from "utils/game/board/creation";
-import { hasPieces } from "./board/functional";
+import { didLose } from "./board/functional";
 import { attackPiece } from "./board/update";
 
 export const createPlayer = (
@@ -39,9 +39,10 @@ export const updateDrawCounter = (game: Game, piece: Piece | null): Game =>
       : { ...game, drawCounter: 0 }
     : game;
 
-export const isGameDraw = (game: Game): boolean => game.drawCounter >= 14;
+export const isGameDraw = (game: Game): boolean => game.drawCounter >= 15;
+
 export const didPlayerLose = (game: Game, player: Player): boolean =>
-  hasPieces(game.board.grid, player.color) === false;
+  didLose(game.board.grid, player.color);
 
 export const updateGameStatus = (game: Game): Game => {
   if (isGameDraw(game)) return finishGame(game, null);
@@ -76,5 +77,7 @@ const movePiece = (game: Game, move: Move): Game => ({
 
 export const makeMove = (game: Game, move: Move): Game =>
   canMovePiece(game, move)
-    ? updateGameStatus(movePiece(updateDrawCounter(switchPlayer(game), move.from.piece), move))
+    ? updateGameStatus(
+        movePiece(updateDrawCounter(switchPlayer(game), move.from.piece), move)
+      )
     : game;

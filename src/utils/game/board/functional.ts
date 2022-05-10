@@ -1,4 +1,5 @@
 import { Grid, Cell, Color, Point } from "types/game";
+import { findAllPossibleMoves } from "./moving";
 
 export const areCellsSame = (cell1: Cell, cell2: Cell): boolean =>
   areCoordsSame(cell1.coords, cell2.coords);
@@ -81,17 +82,9 @@ export const getCornerCells = (grid: Grid, cell: Cell, onMove: Color) => ({
   }),
 });
 
-export const calculatePlainDifference = (grid: Grid) =>
-  grid.reduce<number>(
-    (difference, row) =>
-      difference +
-      row.reduce<number>(
-        (sum, cell) =>
-          sum + (cell.piece ? (cell.piece.color === "white" ? 1 : -1) : 0),
-        0
-      ),
-    0
-  );
-
 export const hasPieces = (grid: Grid, color: Color): boolean =>
   Boolean(grid.find((row) => row.find((cell) => cell.piece?.color === color)));
+
+export const didLose = (grid: Grid, color: Color): boolean =>
+  hasPieces(grid, color) === false ||
+  findAllPossibleMoves(grid, color).length === 0;

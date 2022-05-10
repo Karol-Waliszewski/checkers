@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 import { useAppSelector } from "store";
-import { getBoard, getCurrentPlayer, getGame } from "store/game/selectors";
+import { getGame } from "store/game/selectors";
 
 import Board from "components/Board";
 import { Container } from "components/shared/Layout";
-import { calculatePlainDifference } from "utils/game/board/functional";
+import { calculatePlainDifference } from "utils/game/board/difference";
 
 const BoardWrapper = styled.div`
   border: 2px solid #000;
