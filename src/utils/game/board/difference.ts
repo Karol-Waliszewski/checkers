@@ -1,12 +1,14 @@
-import { Grid } from "types/game";
+import { Game, Grid } from "types/game";
+import { isGameDraw } from "../engine";
 import { didLose } from "./functional";
 
 const differenceWrapper =
   (calculate: (grid: Grid) => number) =>
-  (grid: Grid): number => {
-    if (didLose(grid, "white")) return Number.NEGATIVE_INFINITY;
-    if (didLose(grid, "black")) return Number.POSITIVE_INFINITY;
-    return calculate(grid);
+  (game: Game): number => {
+    if (isGameDraw(game)) return 0;
+    if (didLose(game.board.grid, "white")) return Number.NEGATIVE_INFINITY;
+    if (didLose(game.board.grid, "black")) return Number.POSITIVE_INFINITY;
+    return calculate(game.board.grid);
   };
 
 export const calculatePlainDifference = differenceWrapper((grid: Grid) =>

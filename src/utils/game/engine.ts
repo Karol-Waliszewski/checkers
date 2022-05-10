@@ -42,7 +42,9 @@ export const updateDrawCounter = (game: Game, piece: Piece | null): Game =>
 export const isGameDraw = (game: Game): boolean => game.drawCounter >= 15;
 
 export const didPlayerLose = (game: Game, player: Player): boolean =>
-  didLose(game.board.grid, player.color);
+  game.status === "finished"
+    ? Boolean(game.winner && game.winner.color !== player.color)
+    : didLose(game.board.grid, player.color);
 
 export const updateGameStatus = (game: Game): Game => {
   if (isGameDraw(game)) return finishGame(game, null);

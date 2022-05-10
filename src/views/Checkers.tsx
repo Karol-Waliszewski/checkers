@@ -20,7 +20,7 @@ const Checkers = () => {
       <Container>
         <p>
           Current player: {game.currentPlayer.color} | Difference:{" "}
-          {calculatePlainDifference(game.board.grid)} | Status: {game.status} |
+          {calculatePlainDifference(game)} | Status: {game.status} |
           Winner:{" "}
           {game.winner ? game.winner.name : game === null ? "draw" : "none"}
         </p>

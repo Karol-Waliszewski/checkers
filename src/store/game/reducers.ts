@@ -29,10 +29,13 @@ const gameReducer = createReducer(initialState, (builder) => {
       return {
         ...gameState,
         toggledCell: null,
-        possibleMoves: findAllPossibleMoves(
-          gameState.board.grid,
-          gameState.currentPlayer.color
-        ),
+        possibleMoves:
+          gameState.currentPlayer.type === "player"
+            ? findAllPossibleMoves(
+                gameState.board.grid,
+                gameState.currentPlayer.color
+              )
+            : [],
       };
     });
 });
