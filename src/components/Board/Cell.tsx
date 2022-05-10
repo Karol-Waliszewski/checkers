@@ -4,11 +4,9 @@ import styled from "styled-components";
 import Piece from "components/Board/Piece";
 
 import { toggleCell, movePiece } from "store/game/actions";
-import { useAppDispatch, useAppSelector } from "store";
+import { useAppDispatch } from "store";
 
-import type { Cell as CellProps } from "types/game";
-import { getPossibleMoves } from "store/game/selectors";
-import { getOptimalMove } from "utils/game/functional";
+import type { Cell as CellProps, Move } from "types/game";
 
 const CellWrapper = styled.div<Pick<Props, "color" | "active">>`
   display: flex;
@@ -22,6 +20,7 @@ const CellWrapper = styled.div<Pick<Props, "color" | "active">>`
 type Props = CellProps & {
   active: boolean;
   pieceActive: boolean;
+  move?: Move;
 };
 
 const Cell: React.FC<Props> = ({
@@ -31,11 +30,10 @@ const Cell: React.FC<Props> = ({
   active,
   pieceActive,
   functional,
+  move,
 }) => {
   const dispatch = useAppDispatch();
-  const possibleMoves = useAppSelector(getPossibleMoves);
   const cell: CellProps = { color, piece, coords, functional };
-  const move = getOptimalMove(possibleMoves, cell);
 
   const onCellClick = () => {
     if (active && move) {

@@ -28,13 +28,20 @@ export const isCellOccupiedByAlly = (cell: Cell, onMove: Color): boolean =>
 export const isCellInArray = (cells: Cell[], cell: Cell) =>
   cells.some((value) => areCellsSame(value, cell));
 
-export const isMovePossible = (moves: Move[], cell: Cell) =>
-  isCellInArray(
-    moves.map((move) => move.to),
-    cell
-  );
+export const getCellMove = (
+  moves: Move[],
+  from: Cell | null,
+  to: Cell
+): Move | undefined =>
+  from === null
+    ? undefined
+    : moves.find(
+        (move) => areCellsSame(from, move.from) && areCellsSame(to, move.to)
+      );
+
 export const getMoveWeight = (move: Move): number => move.attacking.length;
-export const getBestWeight = (moves: Move[]): number => Math.max(...moves.map(move => getMoveWeight(move)));
+export const getBestWeight = (moves: Move[]): number =>
+  Math.max(...moves.map((move) => getMoveWeight(move)));
 export const getOptimalMove = (moves: Move[], cell?: Cell) =>
   moves.reduce<Move | null>(
     (max, curr) =>
@@ -45,10 +52,9 @@ export const getOptimalMove = (moves: Move[], cell?: Cell) =>
     null
   ) as Move;
 export const getOptimalMoves = (moves: Move[]): Move[] => {
-  const best = getBestWeight(moves)
-  return moves.filter(move => getMoveWeight(move) === best)
-}
-  
+  const best = getBestWeight(moves);
+  return moves.filter((move) => getMoveWeight(move) === best);
+};
 
 export const canPlacePiece = (cell: Cell) => cell.functional;
 export const didMoveReachEnd = (grid: Grid, cell: Cell) =>
@@ -240,5 +246,5 @@ export const findAllPossibleMoves = (grid: Grid, onMove: Color): Move[] => {
       cell.piece?.color === onMove ? findPossibleMoves(grid, cell, onMove) : []
     )
   );
-  return getOptimalMoves(moves)
+  return getOptimalMoves(moves);
 };

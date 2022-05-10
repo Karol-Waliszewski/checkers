@@ -21,15 +21,6 @@ const gameReducer = createReducer(initialState, (builder) => {
       const isAlreadyToggled =
         state.toggledCell && areCellsSame(action.payload, state.toggledCell);
 
-      // state.possibleMoves =
-      //   !isAlreadyToggled && action.payload.piece
-      //     ? findPossibleMoves(
-      //         state.board.grid,
-      //         action.payload,
-      //         action.payload.piece?.color
-      //       )
-      //     : [];
-
       state.possibleMoves = findAllPossibleMoves(
         state.board.grid,
         action.payload.piece!.color
