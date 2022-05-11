@@ -23,3 +23,20 @@ export const calculatePlainDifference = differenceWrapper((grid: Grid) =>
     0
   )
 );
+
+export const calculatePieceDifference = differenceWrapper((grid: Grid) =>
+  grid.reduce<number>(
+    (difference, row) =>
+      difference +
+      row.reduce<number>(
+        (sum, cell) =>
+          sum +
+          (cell.piece
+            ? (cell.piece.type === "king" ? 3 : 1) *
+              (cell.piece.color === "white" ? 1 : -1)
+            : 0),
+        0
+      ),
+    0
+  )
+);

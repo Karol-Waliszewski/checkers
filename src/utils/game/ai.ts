@@ -1,5 +1,5 @@
 import { Game, Move, Player } from "types/game";
-import { calculatePlainDifference } from "./board/difference";
+import { calculatePieceDifference, calculatePlainDifference } from "./board/difference";
 import { findAllPossibleMoves } from "./board/moving";
 import { makeMove } from "./engine";
 
@@ -10,7 +10,7 @@ const minmax = (
   beta = Number.POSITIVE_INFINITY
 ): number => {
   if (game.status === "finished" || depth === 0) {
-    return calculatePlainDifference(game);
+    return calculatePieceDifference(game);
   }
 
   const possibleMoves = findAllPossibleMoves(

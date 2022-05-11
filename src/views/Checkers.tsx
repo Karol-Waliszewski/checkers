@@ -6,7 +6,7 @@ import { getGame } from "store/game/selectors";
 
 import Board from "components/Board";
 import { Container } from "components/shared/Layout";
-import { calculatePlainDifference } from "utils/game/board/difference";
+import { calculatePieceDifference } from "utils/game/board/difference";
 
 const BoardWrapper = styled.div`
   border: 2px solid #000;
@@ -20,7 +20,7 @@ const Checkers = () => {
       <Container>
         <p>
           Current player: {game.currentPlayer.color} | Difference:{" "}
-          {calculatePlainDifference(game)} | Status: {game.status} |
+          {calculatePieceDifference(game)} | Status: {game.status} |
           Winner:{" "}
           {game.winner ? game.winner.name : game === null ? "draw" : "none"}
         </p>
