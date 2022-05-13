@@ -28,13 +28,24 @@ export type Move = {
   color: Color;
 };
 
-export type PlayerType = "ai" | "player";
+export type PlayerType = "ai" | "human";
 
-export type Player = {
+export interface Controler {
   name: string;
   type: PlayerType;
   color: Color;
-};
+}
+
+export interface AI extends Controler {
+  type: "ai";
+  decideMove: EvaluationFunction;
+}
+
+export interface Human extends Controler {
+  type: "human";
+}
+
+export type Player = AI | Human;
 
 export type GameStatus = "ready" | "started" | "finished";
 
@@ -48,3 +59,7 @@ export type Game = {
   status: GameStatus;
   board: Board;
 };
+
+export type EvaluationFunction =
+  | "calculatePieceDifference"
+  | "calculatePlainDifference";

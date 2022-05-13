@@ -9,6 +9,9 @@ export const AiMove = (store: Store) => () => {
   const currentPlayer = getCurrentPlayer(state);
   const game = getGame(state);
   if (currentPlayer.type === "ai" && getCurrentStatus === "started") {
-    store.dispatch(movePiece(decideMove(game, currentPlayer)));
+    setTimeout(
+      () => store.dispatch(movePiece(decideMove(game, currentPlayer))),
+      2
+    );
   }
 };

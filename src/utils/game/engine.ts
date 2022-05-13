@@ -1,16 +1,26 @@
-import { Game, GameStatus, Move, Piece, Player } from "types/game";
+import { AI, Game, GameStatus, Human, Move, Piece, Player } from "types/game";
 import { createBoard } from "utils/game/board/creation";
 import { didLose } from "./board/functional";
 import { attackPiece } from "./board/update";
 
-export const createPlayer = (
-  name: Player["name"],
-  type: Player["type"],
-  color: Player["color"]
-): Player => ({
+export const createHuman = (
+  name: Human["name"],
+  color: Human["color"]
+): Human => ({
   name,
-  type,
+  type: "human",
   color,
+});
+
+export const createAI = (
+  name: AI["name"],
+  color: AI["color"],
+  decideMove: AI["decideMove"]
+): AI => ({
+  name,
+  type: "ai",
+  color,
+  decideMove,
 });
 
 // TODO: Check if player colors differ

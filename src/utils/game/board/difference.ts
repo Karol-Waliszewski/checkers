@@ -2,7 +2,7 @@ import { Game, Grid } from "types/game";
 import { isGameDraw } from "../engine";
 import { didLose } from "./functional";
 
-const differenceWrapper =
+export const differenceWrapper =
   (calculate: (grid: Grid) => number) =>
   (game: Game): number => {
     if (isGameDraw(game)) return 0;

@@ -47,9 +47,9 @@ const Cell: React.FC<Props> = ({
 
   const onPieceClick = () => {
     if (
-      gameStatus === "started" &&
-      currentPlayer.type === "player" &&
+      gameStatus === 'started' && 
       piece &&
+      currentPlayer.type === "human" &&
       isPieceOwnedByPlayer(currentPlayer, piece)
     ) {
       dispatch(toggleCell(cell));
