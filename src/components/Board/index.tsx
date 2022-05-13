@@ -15,6 +15,7 @@ import { getCellMove } from "utils/game/board/moving";
 const Grid = styled.div<Pick<BoardType, "size">>`
   display: grid;
   grid-template-columns: repeat(${({ size }) => size}, 1fr);
+ 
 `;
 
 const Board: React.FC = () => {
