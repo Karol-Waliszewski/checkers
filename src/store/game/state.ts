@@ -1,6 +1,6 @@
 import { Cell, Move, Game } from "types/game";
 import { findAllPossibleMoves } from "utils/game/board/moving";
-import { createGame, createPlayer } from "utils/game/engine";
+import { createGame, createAI, createHuman } from "utils/game/engine";
 
 export type GameState = Game & {
   toggledCell: Cell | null;
@@ -9,8 +9,8 @@ export type GameState = Game & {
 
 const initialState: () => GameState = () => {
   const game = createGame(
-    createPlayer("A", "player", "black"),
-    createPlayer("B", "ai", "white")
+    createHuman("A", "black"),
+    createAI("B", "white", "calculatePieceDifference")
   );
 
   return {

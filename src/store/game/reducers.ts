@@ -30,7 +30,7 @@ const gameReducer = createReducer(initialState, (builder) => {
         ...gameState,
         toggledCell: null,
         possibleMoves:
-          gameState.currentPlayer.type === "player"
+          gameState.currentPlayer.type === "human"
             ? findAllPossibleMoves(
                 gameState.board.grid,
                 gameState.currentPlayer.color
