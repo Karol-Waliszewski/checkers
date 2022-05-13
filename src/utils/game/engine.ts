@@ -17,11 +17,11 @@ export const createPlayer = (
 export const createGame = (playerA: Player, playerB: Player): Game => ({
   playerA,
   playerB,
-  currentPlayer: playerA, // TODO: Change to null
+  currentPlayer: playerA,
   winner: null,
   drawCounter: 0,
 
-  status: "started", // TODO: change to 'ready'
+  status: "ready",
   board: createBoard(),
 });
 

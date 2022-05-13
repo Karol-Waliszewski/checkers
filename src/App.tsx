@@ -1,5 +1,6 @@
 import React from "react";
 import Checkers from "views/Checkers";
+import "antd/dist/antd.css";
 
 const App = () => {
   return <Checkers />;

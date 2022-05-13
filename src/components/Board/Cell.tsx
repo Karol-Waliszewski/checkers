@@ -7,7 +7,7 @@ import { toggleCell, movePiece } from "store/game/actions";
 import { useAppDispatch, useAppSelector } from "store";
 
 import type { Cell as CellProps, Move } from "types/game";
-import { getCurrentPlayer } from "store/game/selectors";
+import { getCurrentPlayer, getStatus } from "store/game/selectors";
 import { isPieceOwnedByPlayer } from "utils/game/engine";
 
 const CellWrapper = styled.div<Pick<Props, "color" | "active">>`
@@ -36,6 +36,7 @@ const Cell: React.FC<Props> = ({
 }) => {
   const dispatch = useAppDispatch();
   const currentPlayer = useAppSelector(getCurrentPlayer);
+  const gameStatus = useAppSelector(getStatus);
   const cell: CellProps = { color, piece, coords, functional };
 
   const onCellClick = () => {
@@ -45,7 +46,11 @@ const Cell: React.FC<Props> = ({
   };
 
   const onPieceClick = () => {
-    if (piece && isPieceOwnedByPlayer(currentPlayer, piece)) {
+    if (
+      gameStatus === "started" &&
+      piece &&
+      isPieceOwnedByPlayer(currentPlayer, piece)
+    ) {
       dispatch(toggleCell(cell));
     }
   };
