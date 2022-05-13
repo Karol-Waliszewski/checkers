@@ -19,7 +19,7 @@ export const calculateCoordsDirection = (
   return { x: x > 0 ? 1 : x < 0 ? -1 : 0, y: y > 0 ? 1 : y < 0 ? -1 : 0 };
 };
 
-export const isCellFunctional = (color: Cell["color"]) => color === "white";
+export const isCellFunctional = (color: Cell["color"]) => color === "black";
 export const isCellEmpty = (cell: Cell): boolean => !cell.piece;
 export const isCellOccupiedByEnemy = (cell: Cell, onMove: Color): boolean =>
   !isCellEmpty(cell) && cell.piece?.color !== onMove;

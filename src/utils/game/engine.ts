@@ -15,12 +15,14 @@ export const createHuman = (
 export const createAI = (
   name: AI["name"],
   color: AI["color"],
-  decideMove: AI["decideMove"]
+  decideMove: AI["decideMove"],
+  depth = 4
 ): AI => ({
   name,
   type: "ai",
   color,
   decideMove,
+  depth,
 });
 
 // TODO: Check if player colors differ
@@ -28,7 +30,7 @@ export const createGame = (playerA: Player, playerB: Player): Game => ({
   playerA,
   playerB,
   currentPlayer: playerA,
-  winner: null,
+  winner: undefined,
   drawCounter: 0,
 
   status: "ready",

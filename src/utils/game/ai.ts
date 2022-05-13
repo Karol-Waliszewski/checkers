@@ -10,7 +10,7 @@ import { makeMove } from "./engine";
 const minmax = (
   game: Game,
   evaluation: AI["decideMove"],
-  depth: number = 4,
+  depth: number = 5,
   alpha = Number.NEGATIVE_INFINITY,
   beta = Number.POSITIVE_INFINITY
 ): number => {
@@ -59,7 +59,7 @@ const minmax = (
 export const decideMove = (game: Game, player: AI): Move => {
   const possibleMoves = findAllPossibleMoves(game.board.grid, player.color);
   const differences = possibleMoves.map((move) =>
-    minmax(makeMove(game, move), player.decideMove)
+    minmax(makeMove(game, move), player.decideMove, player.depth)
   );
   if (player.color === "white")
     return possibleMoves[differences.indexOf(Math.max(...differences))];

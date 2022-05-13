@@ -15,7 +15,8 @@ const CellWrapper = styled.div<Pick<Props, "color" | "active">>`
   align-items: center;
   justify-content: center;
 
-  background-color: ${({ color, active }) => (active ? "red" : color)};
+  background-color: ${({ color, active }) =>
+    active ? "red" : color === "white" ? "white" : "#888"};
   aspect-ratio: 1;
 `;
 
@@ -47,7 +48,7 @@ const Cell: React.FC<Props> = ({
 
   const onPieceClick = () => {
     if (
-      gameStatus === 'started' && 
+      gameStatus === "started" &&
       piece &&
       currentPlayer.type === "human" &&
       isPieceOwnedByPlayer(currentPlayer, piece)

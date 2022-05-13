@@ -19,9 +19,9 @@ const Info: React.FC = () => {
       <Paragraph>Current player: {game.currentPlayer.name} ({game.currentPlayer.color})</Paragraph>
       <Paragraph>Status: {game.status}</Paragraph>
 
-      {game.winner !== null && (
+      {game.winner !== undefined && (
         <Paragraph>
-          Winner: {game.winner === undefined ? "draw" : game.winner.name}
+          Winner: {game.winner === null ? "draw" : game.winner.name}
         </Paragraph>
       )}
 
