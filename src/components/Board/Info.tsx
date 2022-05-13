@@ -16,7 +16,7 @@ const Info: React.FC = () => {
     <Typography>
       <Title level={2}>Game info</Title>
 
-      <Paragraph>Current player: {game.currentPlayer.color}</Paragraph>
+      <Paragraph>Current player: {game.currentPlayer.name} ({game.currentPlayer.color})</Paragraph>
       <Paragraph>Status: {game.status}</Paragraph>
 
       {game.winner !== null && (
