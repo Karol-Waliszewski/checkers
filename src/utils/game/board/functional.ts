@@ -21,6 +21,7 @@ export const calculateCoordsDirection = (
 
 export const isCellFunctional = (color: Cell["color"]) => color === "white";
 export const isCellEmpty = (cell: Cell): boolean => !cell.piece;
+export const hasPiece = (cell: Cell): boolean => !!cell.piece;
 export const isCellOccupiedByEnemy = (cell: Cell, onMove: Color): boolean =>
   !isCellEmpty(cell) && cell.piece?.color !== onMove;
 export const isCellOccupiedByAlly = (cell: Cell, onMove: Color): boolean =>

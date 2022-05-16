@@ -62,4 +62,5 @@ export type Game = {
 
 export type EvaluationFunction =
   | "calculatePieceDifference"
-  | "calculatePlainDifference";
+  | "calculatePlainDifference"
+  | "calculateCenterDifference";

@@ -1,5 +1,6 @@
 import { AI, EvaluationFunction, Game, Move } from "types/game";
 import {
+  calculateCenterDifference,
   calculatePieceDifference,
   calculatePlainDifference,
   differenceWrapper,
@@ -75,6 +76,8 @@ export const getEvaluationFunction = (
       return calculatePlainDifference;
     case "calculatePieceDifference":
       return calculatePieceDifference;
+    case "calculateCenterDifference":
+    return calculateCenterDifference;
 
     default:
       throw new Error("Incorrect evaluation function");
