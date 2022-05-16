@@ -27,6 +27,9 @@ const BoardInfo = styled.div`
 const BoardWrapper = styled.div`
   border: 2px solid #000;
   aspect-ratio: 1;
+  max-height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 const Checkers = () => {
