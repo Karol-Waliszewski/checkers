@@ -30,7 +30,11 @@ export const isCellInArray = (cells: Cell[], cell: Cell) =>
   cells.some((value) => areCellsSame(value, cell));
 
 export const canPlacePiece = (cell: Cell) => cell.functional;
-export const didMoveReachEnd = (grid: Grid, cell: Cell) =>
+export const didPieceReachEnd = (grid: Grid, cell: Cell): boolean =>
+  cell.piece!.color === "white"
+    ? cell.coords.y === grid.length - 1
+    : cell.coords.y === 0;
+export const didMoveReachEnd = (grid: Grid, cell: Cell): boolean =>
   cell.coords.y === 0 || cell.coords.y === grid.length - 1;
 
 export const getCellsWithPieces = (grid: Grid, color: Color): Cell[] =>

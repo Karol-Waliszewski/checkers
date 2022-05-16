@@ -9,9 +9,8 @@ export type GameState = Game & {
 
 const initialState: () => GameState = () => {
   const game = createGame(
-    createAI("A", "white", "calculatePieceDifference", 9),
-    createAI("B", "black", "calculatePlainDifference", 9),
- 
+    createAI("A", "white", "calculateStrongPieceDifference", 6),
+    createAI("B", "black", "calculatePieceDifference", 6)
   );
 
   return {

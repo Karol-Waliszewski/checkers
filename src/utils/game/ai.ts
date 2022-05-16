@@ -1,8 +1,11 @@
 import { AI, EvaluationFunction, Game, Move } from "types/game";
 import {
   calculateCenterDifference,
+  calculateDistanceDifference,
   calculatePieceDifference,
   calculatePlainDifference,
+  calculateStrongCenterDifference,
+  calculateStrongPieceDifference,
   differenceWrapper,
 } from "./board/difference";
 import { findAllPossibleMoves } from "./board/moving";
@@ -76,8 +79,14 @@ export const getEvaluationFunction = (
       return calculatePlainDifference;
     case "calculatePieceDifference":
       return calculatePieceDifference;
+    case "calculateStrongPieceDifference":
+      return calculateStrongPieceDifference;
     case "calculateCenterDifference":
-    return calculateCenterDifference;
+      return calculateCenterDifference;
+    case "calculateStrongCenterDifference":
+      return calculateStrongCenterDifference;
+    case "calculateDistanceDifference":
+      return calculateDistanceDifference;
 
     default:
       throw new Error("Incorrect evaluation function");
