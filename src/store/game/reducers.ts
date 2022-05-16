@@ -2,19 +2,23 @@ import { createReducer } from "@reduxjs/toolkit";
 import initialState from "store/game/state";
 import {
   movePiece as movePieceAction,
-  reset,
+  resetGame as resetGameAction,
+  startGame as startGameAction,
   setStatus,
   toggleCell,
 } from "store/game/actions";
 import { areCellsSame } from "utils/game/board/functional";
 import { findAllPossibleMoves } from "utils/game/board/moving";
-import { makeMove } from "utils/game/engine";
+import { makeMove, startGame } from "utils/game/engine";
 
 const gameReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(reset, (state) => {
-      state = initialState;
-    })
+    .addCase(resetGameAction, (state) => ({ ...initialState }))
+    .addCase(startGameAction, (state) => ({
+      toggledCell: null,
+      possibleMoves: [],
+      ...startGame(state),
+    }))
     .addCase(setStatus, (state, action) => {
       state.status = action.payload;
     })

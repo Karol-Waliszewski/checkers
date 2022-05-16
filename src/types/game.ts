@@ -39,6 +39,7 @@ export interface Controler {
 export interface AI extends Controler {
   type: "ai";
   decideMove: EvaluationFunction;
+  depth: number
 }
 
 export interface Human extends Controler {
