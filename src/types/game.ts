@@ -30,19 +30,21 @@ export type Move = {
 
 export type PlayerType = "ai" | "human";
 
-export interface Controler {
+export interface Controller {
   name: string;
   type: PlayerType;
   color: Color;
+  moves: number;
+  time: number;
 }
 
-export interface AI extends Controler {
+export interface AI extends Controller {
   type: "ai";
   decideMove: EvaluationFunction;
   depth: number;
 }
 
-export interface Human extends Controler {
+export interface Human extends Controller {
   type: "human";
 }
 

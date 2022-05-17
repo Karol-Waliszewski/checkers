@@ -42,7 +42,7 @@ const Cell: React.FC<Props> = ({
 
   const onCellClick = () => {
     if (active && move) {
-      dispatch(movePiece(move));
+      dispatch(movePiece({ move, decisionTime: 0 }));
     }
   };
 

@@ -5,4 +5,6 @@ export const resetGame = createAction("game/resetGame");
 export const startGame = createAction("game/startGame");
 export const setStatus = createAction<GameStatus>("game/setStatus");
 export const toggleCell = createAction<Cell>("game/toggleCell");
-export const movePiece = createAction<Move>("game/movePiece");
+export const movePiece = createAction<{ move: Move; decisionTime: number }>(
+  "game/movePiece"
+);

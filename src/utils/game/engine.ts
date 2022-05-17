@@ -1,4 +1,13 @@
-import { AI, Game, GameStatus, Human, Move, Piece, Player } from "types/game";
+import {
+  AI,
+  Controller,
+  Game,
+  GameStatus,
+  Human,
+  Move,
+  Piece,
+  Player,
+} from "types/game";
 import { createBoard } from "utils/game/board/creation";
 import { didLose } from "./board/functional";
 import { attackPiece } from "./board/update";
@@ -10,6 +19,8 @@ export const createHuman = (
   name,
   type: "human",
   color,
+  moves: 0,
+  time: 0,
 });
 
 export const createAI = (
@@ -23,7 +34,19 @@ export const createAI = (
   color,
   decideMove,
   depth,
+  moves: 0,
+  time: 0,
 });
+
+export const updateControllerMoves = <T extends Controller>(
+  controller: T,
+  moves: Controller["moves"]
+): T => ({ ...controller, moves });
+
+export const updateControllerTime = <T extends Controller>(
+  controller: T,
+  time: Controller["time"]
+): T => ({ ...controller, time });
 
 // TODO: Check if player colors differ
 export const createGame = (playerA: Player, playerB: Player): Game => ({
@@ -65,6 +88,28 @@ export const updateGameStatus = (game: Game): Game => {
   return game;
 };
 
+export const updatePlayerMeasurements = (
+  game: Game,
+  move: Move,
+  decisionTime: number
+): Game => ({
+  ...game,
+  playerA:
+    game.playerA.color === move.color
+      ? updateControllerTime(
+          updateControllerMoves(game.playerA, game.playerA.moves + 1),
+          game.playerA.time + decisionTime
+        )
+      : game.playerA,
+  playerB:
+    game.playerB.color === move.color
+      ? updateControllerTime(
+          updateControllerMoves(game.playerB, game.playerB.moves + 1),
+          game.playerB.time + decisionTime
+        )
+      : game.playerB,
+});
+
 export const switchPlayer = (game: Game): Game => ({
   ...game,
   currentPlayer:
@@ -89,9 +134,20 @@ const movePiece = (game: Game, move: Move): Game => ({
   },
 });
 
-export const makeMove = (game: Game, move: Move): Game =>
+export const makeMove = (
+  game: Game,
+  move: Move,
+  decisionTime: number = 0
+): Game =>
   canMovePiece(game, move)
     ? updateGameStatus(
-        movePiece(updateDrawCounter(switchPlayer(game), move.from.piece), move)
+        updatePlayerMeasurements(
+          movePiece(
+            updateDrawCounter(switchPlayer(game), move.from.piece),
+            move
+          ),
+          move,
+          decisionTime
+        )
       )
     : game;

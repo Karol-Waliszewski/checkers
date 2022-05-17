@@ -28,7 +28,7 @@ const gameReducer = createReducer(initialState, (builder) => {
       state.toggledCell = isAlreadyToggled ? null : action.payload;
     })
     .addCase(movePieceAction, (state, action) => {
-      const gameState = makeMove(state, action.payload);
+      const gameState = makeMove(state, action.payload.move, action.payload.decisionTime);
 
       return {
         ...gameState,
