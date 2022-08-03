@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Row, Col } from "antd";
 
 import Board from "components/Board";
 import Info from "components/Board/Info";
@@ -36,18 +35,13 @@ const Checkers = () => {
   return (
     <Main>
       <StyledContainer>
-        <Row gutter={[16, 16]} align="stretch">
-          <Col span={24} md={{ span: 16 }}>
-            <BoardWrapper>
-              <Board />
-            </BoardWrapper>
-          </Col>
-          <Col span={24} md={{ span: 8 }}>
-            <BoardInfo>
-              <Info />
-            </BoardInfo>
-          </Col>
-        </Row>
+        <BoardWrapper>
+          <Board />
+        </BoardWrapper>
+
+        <BoardInfo>
+          <Info />
+        </BoardInfo>
       </StyledContainer>
     </Main>
   );

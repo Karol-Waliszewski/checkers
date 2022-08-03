@@ -1,53 +1,47 @@
 import React from "react";
-import { Typography, Divider } from "antd";
 
 import { useAppDispatch, useAppSelector } from "store";
 import { getGame } from "store/game/selectors";
-import { Button } from "antd";
 import { resetGame, startGame } from "store/game/actions";
 import { parseTime } from "utils/time";
-
-const { Title, Paragraph } = Typography;
 
 const Info: React.FC = () => {
   const game = useAppSelector(getGame);
   const dispatch = useAppDispatch();
 
   return (
-    <Typography>
-      <Title level={2}>Game info</Title>
+    <div>
+      <h2>Game info</h2>
       {game.winner === undefined && (
-        <Paragraph>
+        <p>
           Current player: {game.currentPlayer.name} ({game.currentPlayer.color})
-        </Paragraph>
+        </p>
       )}
-      <Paragraph>Status: {game.status}</Paragraph>
+      <p>Status: {game.status}</p>
       {game.winner !== undefined && (
-        <Paragraph>
-          Winner: {game.winner === null ? "draw" : game.winner.name}
-        </Paragraph>
+        <p>Winner: {game.winner === null ? "draw" : game.winner.name}</p>
       )}
-      <Divider />
-      <Title level={3}>{game.playerA.name}</Title>
-      <Paragraph>Moves: {game.playerA.moves}</Paragraph>
+      <hr />
+      <h3>{game.playerA.name}</h3>
+      <p>Moves: {game.playerA.moves}</p>
       {game.playerA.type === "ai" && (
-        <Paragraph>Time: {parseTime(game.playerA.time)}ms</Paragraph>
+        <p>Time: {parseTime(game.playerA.time)}ms</p>
       )}
 
-      <Title level={3}>{game.playerB.name}</Title>
-      <Paragraph>Moves: {game.playerB.moves}</Paragraph>
+      <h3>{game.playerB.name}</h3>
+      <p>Moves: {game.playerB.moves}</p>
       {game.playerB.type === "ai" && (
-        <Paragraph>Time: {parseTime(game.playerB.time)}ms</Paragraph>
+        <p>Time: {parseTime(game.playerB.time)}ms</p>
       )}
 
-      <Divider />
+      <hr />
       {game.status === "ready" && (
-        <Button onClick={() => dispatch(startGame())}>Start Game</Button>
+        <button onClick={() => dispatch(startGame())}>Start Game</button>
       )}
       {(game.status === "started" || game.status === "finished") && (
-        <Button onClick={() => dispatch(resetGame())}>Reset Game</Button>
+        <button onClick={() => dispatch(resetGame())}>Reset Game</button>
       )}
-    </Typography>
+    </div>
   );
 };
 
