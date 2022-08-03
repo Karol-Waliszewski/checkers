@@ -1,24 +1,15 @@
 import React from "react";
-import styled from "styled-components";
 
+import { GridItem, AspectRatio } from "@chakra-ui/react";
 import Piece from "components/Board/Piece";
 
 import { toggleCell, movePiece } from "store/game/actions";
 import { useAppDispatch, useAppSelector } from "store";
-
-import type { Cell as CellProps, Move } from "types/game";
 import { getCurrentPlayer, getStatus } from "store/game/selectors";
+
 import { isPieceOwnedByPlayer } from "utils/game/engine";
 
-const CellWrapper = styled.div<Pick<Props, "color" | "active">>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background-color: ${({ color, active }) =>
-    active ? "red" : color === "white" ? "white" : "#888"};
-  aspect-ratio: 1;
-`;
+import type { Cell as CellProps, Move } from "types/game";
 
 type Props = CellProps & {
   active: boolean;
@@ -58,16 +49,22 @@ const Cell: React.FC<Props> = ({
   };
 
   return (
-    <CellWrapper color={color} active={active} onClick={onCellClick}>
-      {piece && (
-        <Piece
-          type={piece.type}
-          color={piece.color}
-          active={pieceActive}
-          onClick={onPieceClick}
-        />
-      )}
-    </CellWrapper>
+    <AspectRatio ratio={1}>
+      <GridItem
+        bg={active ? "red" : color}
+        onClick={onCellClick}
+        cursor={active ? "pointer" : "initial"}
+      >
+        {piece && (
+          <Piece
+            type={piece.type}
+            color={piece.color}
+            active={pieceActive}
+            onClick={onPieceClick}
+          />
+        )}
+      </GridItem>
+    </AspectRatio>
   );
 };
 

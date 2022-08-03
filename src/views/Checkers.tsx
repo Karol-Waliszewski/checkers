@@ -1,49 +1,28 @@
-import React from "react";
-import styled from "styled-components";
-
+import { Container, Box, AspectRatio } from "@chakra-ui/react";
 import Board from "components/Board";
 import Info from "components/Board/Info";
 
-import { Container } from "components/shared/Layout";
-
-const Main = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  min-height: 100vh;
-  width: 100%;
-`;
-
-const StyledContainer = styled(Container)``;
-
-const BoardInfo = styled.div`
-  padding: 1rem;
-
-  border: 2px solid #000;
-`;
-
-const BoardWrapper = styled.div`
-  border: 2px solid #000;
-  aspect-ratio: 1;
-  max-height: 100vh;
-  margin-left: auto;
-  margin-right: auto;
-`;
-
 const Checkers = () => {
   return (
-    <Main>
-      <StyledContainer>
-        <BoardWrapper>
-          <Board />
-        </BoardWrapper>
+    <Box
+      w="100vw"
+      minH="100vh"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Container maxW="container.lg" display="flex" gap="2">
+        <AspectRatio ratio={1} flex="1">
+          <Box mx="auto">
+            <Board />
+          </Box>
+        </AspectRatio>
 
-        <BoardInfo>
+        <Box border="1px" borderColor="black" p="1">
           <Info />
-        </BoardInfo>
-      </StyledContainer>
-    </Main>
+        </Box>
+      </Container>
+    </Box>
   );
 };
 

@@ -1,8 +1,11 @@
 import React from "react";
 
+import { Button, Text, Heading, Box, Divider } from "@chakra-ui/react";
+
 import { useAppDispatch, useAppSelector } from "store";
 import { getGame } from "store/game/selectors";
 import { resetGame, startGame } from "store/game/actions";
+
 import { parseTime } from "utils/time";
 
 const Info: React.FC = () => {
@@ -10,38 +13,49 @@ const Info: React.FC = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <div>
-      <h2>Game info</h2>
+    <Box p="5">
+      <Heading as="h2">Game info</Heading>
       {game.winner === undefined && (
-        <p>
+        <Text>
           Current player: {game.currentPlayer.name} ({game.currentPlayer.color})
-        </p>
+        </Text>
       )}
-      <p>Status: {game.status}</p>
+      <Text>Status: {game.status}</Text>
       {game.winner !== undefined && (
-        <p>Winner: {game.winner === null ? "draw" : game.winner.name}</p>
-      )}
-      <hr />
-      <h3>{game.playerA.name}</h3>
-      <p>Moves: {game.playerA.moves}</p>
-      {game.playerA.type === "ai" && (
-        <p>Time: {parseTime(game.playerA.time)}ms</p>
+        <Text>Winner: {game.winner === null ? "draw" : game.winner.name}</Text>
       )}
 
-      <h3>{game.playerB.name}</h3>
-      <p>Moves: {game.playerB.moves}</p>
-      {game.playerB.type === "ai" && (
-        <p>Time: {parseTime(game.playerB.time)}ms</p>
-      )}
+      <Divider my="3" />
 
-      <hr />
+      <Box mb="3">
+        <Heading as="h3" size="md">
+          {game.playerA.name}
+        </Heading>
+        <Text>Moves: {game.playerA.moves}</Text>
+        {game.playerA.type === "ai" && (
+          <Text>Time: {parseTime(game.playerA.time)}ms</Text>
+        )}
+      </Box>
+
+      <Box mb="3">
+        <Heading as="h3" size="md">
+          {game.playerB.name}
+        </Heading>
+        <Text>Moves: {game.playerB.moves}</Text>
+        {game.playerB.type === "ai" && (
+          <Text>Time: {parseTime(game.playerB.time)}ms</Text>
+        )}
+      </Box>
+
+      <Divider my="3" />
+
       {game.status === "ready" && (
-        <button onClick={() => dispatch(startGame())}>Start Game</button>
+        <Button onClick={() => dispatch(startGame())}>Start Game</Button>
       )}
       {(game.status === "started" || game.status === "finished") && (
-        <button onClick={() => dispatch(resetGame())}>Reset Game</button>
+        <Button onClick={() => dispatch(resetGame())}>Reset Game</Button>
       )}
-    </div>
+    </Box>
   );
 };
 

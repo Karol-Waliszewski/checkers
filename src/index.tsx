@@ -8,15 +8,12 @@ import { store } from "store";
 
 import App from "App";
 
-import GlobalStyles from "styles/global";
-
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <GlobalStyles />
       <ChakraProvider>
         <BrowserRouter>
           <App />
