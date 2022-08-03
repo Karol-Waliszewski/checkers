@@ -28,11 +28,9 @@ export type Move = {
   color: Color;
 };
 
-export type PlayerType = "ai" | "human";
-
 export interface Controller {
   name: string;
-  type: PlayerType;
+  type: "ai" | "human";
   color: Color;
   moves: number;
   time: number;
