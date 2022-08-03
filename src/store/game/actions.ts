@@ -21,13 +21,18 @@ export const actionBuilder = (builder: ActionReducerMapBuilder<GameState>) => {
       ...state,
       ...startGameEngine(state),
     }))
-    .addCase(setStatus, (state, action) => {
-      state.status = action.payload;
-    })
+    .addCase(setStatus, (state, action) => ({
+      ...state,
+      status: action.payload,
+    }))
     .addCase(toggleCell, (state, action) => {
       const isAlreadyToggled =
         state.toggledCell && areCellsSame(action.payload, state.toggledCell);
-      state.toggledCell = isAlreadyToggled ? null : action.payload;
+
+      return {
+        ...state,
+        toggledCell: isAlreadyToggled ? null : action.payload,
+      };
     })
     .addCase(movePiece, (state, action) => {
       const gameState = makeMove(
@@ -47,5 +52,5 @@ export const actionBuilder = (builder: ActionReducerMapBuilder<GameState>) => {
               )
             : [],
       };
-    })
+    });
 };
